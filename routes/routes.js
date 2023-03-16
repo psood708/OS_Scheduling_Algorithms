@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const{} = require('../controllers');
+const{postSchedule, getSchedule} = require('../controllers/bankerController');
 
-router.post('/compute',);
+router.post('/schedule',postSchedule);
+router.get('/get/:id',getSchedule);
+
+module.exports = router;
+

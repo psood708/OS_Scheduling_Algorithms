@@ -4,24 +4,32 @@ const Schema = mongoose.Schema;
 
 const BankerSchema = new Schema({
     //2-D Matrix of Processes X Reources
-    alloc: [{
-       process: [{
-            numb: Number
-        }]
-    }],
+    
+    alloc: {
+        values: [
+            {
+            r1: Number,
+            r2: Number,
+            r3: Number
+            }
+        ]
+    },
 
-    //2-D Matrix of Proccesses X Resource
-    max: [{
-        processMax: [{
-            num : Number
-        }]
-    }],
+    max: {
+        values: [
+            {
+            r1: Number,
+            r2: Number,
+            r3: Number
+            }
+        ]
+    },
 
-    //List of Avaiable space to each resource
-    avail: [{
-        availResource: Number
-    }]
-
+    avail: {
+        r1:Number,
+        r2:Number,
+        r3:Number
+    }
 });
 
-module.exports = mongoose.model('BankerSchema', BankerSchema);
+module.exports = mongoose.model('model', BankerSchema);
