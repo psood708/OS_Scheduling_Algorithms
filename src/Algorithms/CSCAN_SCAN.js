@@ -1,160 +1,222 @@
-import React from 'react'
-
+import { React, useState } from 'react'
+import Chart from 'chart.js/auto';
+import { Line } from 'react-chartjs-2';
+import { Navbar } from '../Components/Navbar';
 export const CSCAN_SCAN = () => {
-  return (
-    <div>CSCAN_SCAN</div>
-  )
-}
-
-
-
-
-let exeBtn = document.getElementById("executeButton");
-let addTrack = document.getElementById("addTrackBtn");
-let requestedArray = [];
-let inputTable = document.getElementById("inputtable");
-let tr = document.createElement('tr');
-let size;
-let startTrack;
-let travelTime;
-
-addTrack.addEventListener('click', () => {
-    size = parseInt(document.getElementById("total_tracks").value);        //no. of tracks in the disk
-    travelTime = parseInt(document.getElementById("timetakenPertrack").value);   //time taken by R/W head to travel through 1 track 
-    startTrack = parseInt(document.getElementById("startingHead").value);       //starting position of the R/W head
-    const trackField = document.getElementById("Requested Tracks");
-    const trackInput = parseInt(trackField.value);
-    //to check the validity of the entered values by the user
-    if (validator(size, travelTime, startTrack, trackInput)) {
-        requestedArray.push(trackInput);
-        let td = document.createElement('td');
-        let cellText = document.createTextNode(trackInput);
-        td.appendChild(cellText);
-        tr.appendChild(td);
-        inputTable.appendChild(tr);
+    const [lb, setlb] = useState('');
+    const [ub, setub] = useState('');
+    const [type, setType] = useState('');
+    const [reqArr, setArr] = useState("0");
+    const [seekTime,setSeekTime] = useState(0);
+    var final_seekTime ;
+    const seekChange = (event)=>{
+        setSeekTime(final_seekTime);
     }
-    trackField.value = "";
-});
+    const handleArr = (event) => {
+        setArr(event.target.value);
+    }
+    const handleType = (event) => {
+        setType(event.target.value);
+    }
+    const handlelb = (event) => {
+        setlb(parseInt(event.target.value));
+    };
+    const handleub = (event) => {
+        setub(parseInt(event.target.value));
+    };
 
-let validator = (size, travelTime, startTrack, trackInput) => {
 
-    if (Number.isNaN(size) || size < 0) {
-        alert("Please enter a valid number!");
-        return false
-    } else {
-        if (Number.isNaN(startTrack) || startTrack < 0) {
-            alert(`Please enter a valid track number! It should be in between 0 and ${size - 1}`);
-            return false;
-        } else if (startTrack > (size - 1)) {
-            alert(`Starting Track number for R/W head cant be greater than ${size - 1}! Please try again.`);
-            return false;
-        } else {
-            if (Number.isNaN(travelTime) || travelTime < 0) {
-                alert("Please enter a valid time");
-                return false;
-            } else {
-                if (Number.isNaN(trackInput) || trackInput < 0) {
-                    alert(`Please enter a valid track number! It should be in between 0 and ${size - 1}`);
-                    return false;
-                } else if (trackInput > (size - 1)) {
-                    alert(`Track number cant be greater than ${size - 1}! Please try again.`);
-                    return false;
-                } else {
-                    return true;
-                }
+    var head_Positions;
+    console.log(lb, ub, type, reqArr)
+
+    const requestedArray = reqArr.match(/(?:\d+|null)/g).map(Number);
+    console.log(requestedArray);
+//this command is for scanScheduling
+    
+
+    if(type==="cscan"){
+
+    
+    //for cscan
+    function cscanScheduling(lb, ub, requestedArray, dir) {
+        const queue = [...requestedArray];
+        queue.push(lb, ub);
+        queue.sort((a, b) => a - b);
+        const startIdx = queue.findIndex((element) => element >= lb);
+        console.log(startIdx)
+        var direction = dir;
+        let headPos = lb;
+        let totalSeekTime = 0;
+        const headPositions = [headPos];
+        while (queue.length > 0) {
+          let nextPos;
+          if (direction === "right") {
+            nextPos = queue.find((element) => element > headPos);
+            if (nextPos === undefined) {
+              direction = "left";
+              nextPos = queue[queue.length - 1];
             }
+          } else {
+            nextPos = queue.reverse().find((element) => element < headPos);
+            if (nextPos === undefined) {
+              direction = "right";
+              nextPos = queue[0];
+            } else {
+              queue.reverse();
+            }
+          }
+          const seekTime = Math.abs(nextPos - headPos);
+          totalSeekTime += seekTime;
+          headPos = nextPos;
+          headPositions.push(headPos);
+          queue.splice(queue.indexOf(nextPos), 1);
         }
+        final_seekTime = totalSeekTime;
+        return headPositions;
+      }
+     head_Positions = cscanScheduling(lb, ub, requestedArray, "right");
     }
+    else{
+        function scanScheduling(lb, ub, requestedArray, dir) {
+            //a copy here is created
+            const queue = [...requestedArray];
+            queue.push(lb, ub);
+            queue.sort((a, b) => a - b);
+            //here we will find the index that we need to start if we starting
+            const startIdx = queue.findIndex((element) => element >= lb);
+            var direction = dir;
+            //here we are initializing the headpositions 
+            let headPos = lb;
+            let totalSeekTime = 0;
+            const headPositions = [headPos];
+            while (queue.length > 0) {
+                let nextPos;
+                //this first goes in right and checks if not undefined then contines else it will go to left
+                if (direction === "right") {
+                    // Look for the first position to the right of the head position
+                    nextPos = queue.find((element) => element > headPos);
+                    if (nextPos === undefined) {
+                        // If there is no position to the right, switch direction
+                        direction = "left";
+                        nextPos = queue.pop();
+                    }
+                } else {
+                                //    Look for the first position to the left of the head position
+                    nextPos = queue.reverse().find((element) => element < headPos);
+                    if (nextPos === undefined) {
+                        // If there is no position to the left, switch direction
+                        direction = "right";
+                        nextPos = queue.shift();
+                    } else {
+                        // If there is a position to the left, reverse the queue again
+                        queue.reverse();
+                    }
+                }
+                const seekTime = Math.abs(nextPos - headPos);
+                totalSeekTime += seekTime;
+                headPos = nextPos;
+                // Add the current head position to the array
+                headPositions.push(headPos);
+                // Remove the next position from the queue
+                queue.splice(queue.indexOf(nextPos), 1);
+            }
+            final_seekTime = totalSeekTime;
+            return headPositions;
+        }
+        head_Positions = scanScheduling(lb, ub, requestedArray, "right");
 
+    }
+    // console.log(totalSeekTime);
+  
+
+//   const canvas = document.getElementById("myChart");
+
+
+//   const ctx = canvas.getAttribute("2d")
+
+const chartData = {
+    labels: [], // Will be populated with the position numbers
+    datasets: [
+      {
+        label: "Disk Head Position",
+        data: [], // Will be populated with the disk head position at each step
+        fill: false,
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+        
+      },
+    ],
+  };
+  
+  const chartOptions = {
+    scales: {
+        xAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+      yAxes: [
+        {
+          ticks: {
+            min:lb,
+            max:ub
+          },
+        },
+      ],
+    },
+  };
+  chartData.labels = head_Positions.map((pos)=>pos.toString());
+  chartData.datasets[0].data=head_Positions;
+  console.log("ChartLabels")
+  console.log(chartData.labels)
+  function MyChart() {
+    return (
+      <Line data={chartData} options={chartOptions} />
+    );
+  }
+
+
+    return (
+        <div>
+            <Navbar />
+            <div className='font-Gloock bg-[#19191c] text-white'>
+                <div className='p-6 text-[40px] text-center tracking-wide'>SCAN-CSCAN Disk Scheduling </div>
+                {/* this is for entering the data or the input that we see  */}
+                <div className=' flex justify-center text-[20px] gap-44 pt-8'>
+                    <div>
+                        <div className='text-center'>Lower Bound </div>
+                        <input type="text" value={lb} className='text-black border-4 rounded-md ' id='lb' onChange={handlelb} />
+                    </div>
+                    <div>
+                        <div className='text-center'>Upper Bound </div>
+                        <input type="text" value={ub} className='text-black border-4 rounded-md ' onChange={handleub} id='ub' />
+                    </div>
+                    <div>
+                        <div className='text-center'>Type</div>
+                        <select className='text-black border-4 rounded-md' onChange={handleType} >
+                            <option id='scan' value="scan">SCAN</option>
+                            <option id='cscan' value="cscan">CSCAN</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className='flex mt-20 justify-center gap-8'>
+                    <div className='text-[20px]'>Requested Array</div>
+                    <input id='requested' value={reqArr} type="text" onChange={handleArr} className='text-black border-4 w-1/3 rounded-md ' />
+
+
+
+                </div>
+                <div className="text-[20px] mt-10 flex justify-center">Total Seek Time: <div value={final_seekTime} onChange={seekChange} className="bg-white text-black"> 100</div> </div>
+                <div className='border-4 border-white p-6 mt-10'><MyChart/></div>
+
+
+            </div>
+        </div>
+    )
 }
 
-exeBtn.addEventListener('click', () => {
 
-    const arraySize = requestedArray.length;
-    let largerFirst = true;
-    const travelDirecn = document.getElementById("Selector").value;
-    const scan = document.getElementById("scanOrscanC").value;
-    if (travelDirecn == '0') {
-        largerFirst = true
-    } else {
-        largerFirst = false;
-    }
-    let processedTrackSequence = [];
-    let totalTracksTravelled = 0;
-    let totalTime = 0;
-    //requestedArray in ascending order
-    requestedArray = requestedArray.sort((a, b) => a - b);
 
-    let position = 0;
-    while (position < arraySize) {
-        if (requestedArray[position] >= startTrack) {
-            break;
-        }
-        position++;
-    }
-    if (scan == 'scan') {
-
-        //There will be 6 cases
-        //case 1, all requested tracks are larger than the starting position and larger have to be processed first
-        if (position == 0 && largerFirst == true) {
-            processedTrackSequence = requestedArray;
-            totalTracksTravelled = (size - 1) - startTrack;
-            //case 2, if all requested tracks are larger than the starting position and smaller have to be processed first
-        } else if (position == 0 && largerFirst == false) {
-            processedTrackSequence = requestedArray;
-            totalTracksTravelled = startTrack + requestedArray[arraySize - 1];
-            //case 3, if all requested tracks are smaller than the starting position and smaller have to be processed first
-        } else if (position == arraySize && largerFirst == false) {
-            processedTrackSequence = requestedArray.slice().reverse();
-            totalTracksTravelled = startTrack;
-            //case 4, if all requested tracks are smaller than starting position and larger have to be proccessed first
-        } else if (position == arraySize && largerFirst == true) {
-            processedTrackSequence = requestedArray.slice().reverse();
-            totalTracksTravelled = ((size - 1) - startTrack) + ((size - 1) - requestedArray[0]);
-            //case 5, if starting track is somewhere in between and larger tracks have to be processed first
-        } else if (largerFirst == true) {
-            processedTrackSequence = requestedArray.slice(position).concat(requestedArray.slice(0, position).reverse());
-            totalTracksTravelled = ((size - 1) - startTrack) + ((size - 1) - requestedArray[0]);
-            //case 6, if starting track is somewhere in between and smaller tracks have to be processed first
-        } else {
-            processedTrackSequence = requestedArray.slice(0, position).reverse().concat(requestedArray.slice(position));
-            totalTracksTravelled = startTrack + requestedArray[arraySize - 1];
-        }
-    } else {
-        if (position == 0 && largerFirst == true) {
-            processedTrackSequence = requestedArray;
-            totalTracksTravelled = (2 * (size - 1)) - startTrack;
-        } else if (position == 0 && largerFirst == false) {
-            processedTrackSequence = requestedArray;
-            totalTracksTravelled = startTrack + (size - 1);
-        } else if (position == arraySize && largerFirst == true) {
-            processedTrackSequence = requestedArray;
-            totalTracksTravelled = 2 * (size - 1) - startTrack + (requestedArray[arraySize - 1]);
-        } else if (position == arraySize && largerFirst == false) {
-            processedTrackSequence = requestedArray.reverse();
-            totalTracksTravelled = startTrack + (size - 1);
-        } else if (largerFirst == true) {
-            processedTrackSequence = requestedArray.slice(position).concat(requestedArray.slice(0, position));
-            totalTracksTravelled = 2 * (size - 1) - startTrack + requestedArray[position - 1];
-        } else {
-            processedTrackSequence = requestedArray.slice(0, position).reverse().concat(requestedArray.slice(position).reverse());
-            totalTracksTravelled = startTrack + 2 * (size - 1) - requestedArray[position];
-        }
-    }
-    totalTime = totalTracksTravelled * travelTime;
-    document.getElementById("trackstravelled").value = totalTracksTravelled;
-    document.getElementById("totaltime").value = totalTime;
-    createOutputTable(processedTrackSequence);
-});
-
-const createOutputTable = (processedTrackSequence) => {
-    let outputTable = document.getElementById("outputtable");
-    let tr2 = document.createElement('tr');
-    for (let i = 0; i < processedTrackSequence.length; i++) {
-        let td2 = document.createElement('td');
-        let text = document.createTextNode(processedTrackSequence[i]);
-        td2.appendChild(text);
-        tr2.appendChild(td2);
-    }
-    outputTable.appendChild(tr2);
-}

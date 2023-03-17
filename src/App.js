@@ -7,6 +7,7 @@ import {MRU} from "./Pages/MRU";
 import './App.css';
 import { BankersAlgo } from './Algorithms/BankersAlgo';
 import { AboutUs } from './Pages/AboutUs';
+import { CSCAN_SCAN } from './Algorithms/CSCAN_SCAN';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route exact path="/MRU" element ={<MRU/>}/>
         <Route exact path="/about" element={<AboutUs/>}/>
         <Route  path="/simulation_bankers" element={<BankersAlgo/>}/>
+        <Route  path="/simulation_cscan_scan" element={<CSCAN_SCAN/>}/>
+
 
 
       </Routes>
