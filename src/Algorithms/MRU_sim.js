@@ -5,9 +5,50 @@ export const  MRU_sim =()=> {
   
 //things to do
 //1) Make a function that will convert the referensce string to an array seperating the commas
+
+function referenceStringToArray(referenceString) {
+  return referenceString.split(",");
+}
 //2) Take the number from the array above and map it into the the input fiels --> you will require a function here to map
+
+// function arrayMapping() {
+//   pageReference = referenceStringToArray(referenceString);
+
+// function renderInputFields(pageReference,  {
+//   return pageReference.map((number, index)=>(
+//     <input 
+//     type="number"
+//     key={index}
+//     value={number}
+//     // onChange={(e)=>}    
+//     />
+//   ))
+//   })
+// }
 //3) make a function that would display H(hit) or F(fault) at the specific id that has been created below based on the MRU algorithm
+//This function is invoked when there at every index o find if it is a hit or not
+function hitOrFault(id){
+  const hit=0, fault=0;
+  const index = pageReferences.indexOf(id);
+  if(index != -1){
+    hit ++;
+    pageReferences.splice(index, 1) //As Hit has occured, it will remove the index from the array.
+  }
+  else{
+    fault++;
+    if(pageReferences.length == pageFrames.length){
+      //The page memory is full which constitutes, removing the oldest from the array i.e replacing it with newly used.
+      pageReferences.shift();
+    }
+  }
+  //We don't have to 
+  pageReferences.push(id);
+  return hit, fault;
+}
+
 //4) Make a basic MRU algo that will be checking the previous value and accordingly map it onto the input fields
+
+
 //5) if any doubts contact me
 
 
