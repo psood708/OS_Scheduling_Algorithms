@@ -1,70 +1,86 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Banker's Algorithm
 
-## Available Scripts
+Banker's algorithm 
 
-In the project directory, you can run:
+The Banker's Algorithm is a resource allocation and deadlock avoidance algorithm used in operating systems to ensure the safe and efficient allocation of resources to processes.
 
-### `npm start`
+The algorithm was developed by Dijkstra in 1965 and is based on the idea of preventing deadlock by checking whether a process can request the resources it needs without leading to a deadlock. The Banker's algorithm is used by the operating system to ensure that the system can meet the resource requests of all processes without getting into a deadlock situation.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The algorithm works by maintaining a record of the total number of available resources and the resources currently allocated to each process. It also maintains a record of the maximum number of resources each process can request. Using this information, the algorithm determines whether a process can request additional resources without leading to a deadlock. If the system can satisfy the request, the resources are allocated to the process, and the system continues to run. If the request cannot be satisfied without leading to a deadlock, the process is forced to wait until the resources become available.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The Banker's algorithm is widely used in modern operating systems and is considered a robust and efficient method of resource allocation and deadlock avoidance.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+process:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1) The algorithm starts by taking an input of the total number of available resources and the current allocation of resources to each process.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2) The algorithm then calculates the maximum number of resources that each process can request. This information is usually provided by the process when it is created.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3) The algorithm checks whether a process can request the resources it needs without leading to a deadlock. This is done by simulating the allocation of resources to the process and checking whether the resulting system will still be in a safe state, i.e., there will be no deadlock.
 
-### `npm run eject`
+4) If the system can satisfy the request, the resources are allocated to the process, and the system continues to run. If the request cannot be satisfied without leading to a deadlock, the process is forced to wait until the resources become available.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5) Whenever a process releases a resource, the algorithm checks whether the system is still in a safe state. If it is, the resource is deallocated, and the system continues to run. If the system is not in a safe state, the process is forced to wait until additional resources become available.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+6) The algorithm continues to allocate and deallocate resources based on the requests of the processes until all processes have completed their tasks and released their resources.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The Banker's algorithm is widely used in modern operating systems and is considered a robust and efficient method of resource allocation and deadlock avoidance. The algorithm ensures that the system can meet the resource requests of all processes without getting into a deadlock situation.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+# Need for Banker's Algorithm
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Need...
+The algorithm checks each process' resource needs to make sure that granting those resources won't result in a deadlock. When two or more processes are waiting for each other to release resources that they require to move onto the next phase, a deadlock results. This looping waiting condition may result in a deadlock that prevents any processes from moving forward.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The available vector, allocation matrix, and need matrix are the three data structures that the Banker's algorithm uses to make sure the system is always in a secure state. The allocation matrix shows how many resources of each type are currently allocated to each process, while the available vector shows how many resources of each type are currently available. The resources that each process still requires to finish execution are shown in the need matrix.
 
-### Code Splitting
+The algorithm determines whether a process can finish running with the resources at hand. The procedure is permitted to allocate the resources it requires, if possible. If not, the procedure is suspended until the required resources are made available. This guarantees that the system stays secure and eliminates the possibility of a deadlock.
+The Banker's algorithm is, in general, a crucial tool for preserving system stability and avoiding deadlocks. It enables multiple processes to effectively share a constrained set of resources while avoiding looping waiting situations that can result in system-wide deadlocks.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# TechStack Used
+- ReactJs
+- NodeJs
+- ExpressJs
+- MongoDB
+## API Reference
 
-### Analyzing the Bundle Size
+#### Get all items
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```http
+  GET /api/v1/get/${id}
+```
 
-### Making a Progressive Web App
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `id`      | `string` | **Required**. Object id |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### Get item
 
-### Advanced Configuration
+```http
+  POST /api/v1/schedule
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `body`      | `json` | **Required**. json data of Input from Front-end |
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+## Authors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Priyank Vaidya](https://www.github.com/octokatherine)
+- [Akanksha Sharma](https://github.com/akankshaaa8)
+- [Manav Surti](https://github.com/infosecmanav)
+- [Puja Mavadhiya](https://github.com/pujamavadhiya)
+
+
+## Badges
+
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+
