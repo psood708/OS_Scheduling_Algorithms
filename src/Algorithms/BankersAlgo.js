@@ -25,11 +25,11 @@ function reset(){
   }
   
   function example(){
-    var sam = [[0,0,0],
-          [0,0,0],
-          [0,0,0],
-          [0,0,0],
-          [0,0,0]];
+    var sam = [[0,1,0],
+          [2,0,0],
+          [3,0,2],
+          [1,1,1],
+          [1,0,2]];
   
     var max = [[7,5,3],
           [3,2,2],
@@ -42,11 +42,32 @@ function reset(){
         document.getElementById('m'+i+j).value = max[i-1][j-1];
       }
     }
-    document.getElementById('resourceA').value = 9;
+    document.getElementById('resourceA').value = 10;
     document.getElementById('resourceB').value = 5;
     document.getElementById('resourceC').value = 7;
   }
+  function exampleDeadlock(){
+    var sam = [[1,1,0],
+          [2,0,0],
+          [4,0,0],
+          [1,2,1],
+          [1,0,2]];
   
+    var max = [[11,5,3],
+          [3,2,2],
+          [8,0,2],
+          [2,2,2],
+          [4,3,3]];
+    for(var i=1; i<=5; i++){
+      for(var j=1; j<=3; j++){
+        document.getElementById('a'+i+j).value = sam[i-1][j-1];
+        document.getElementById('m'+i+j).value = max[i-1][j-1];
+      }
+    }
+    document.getElementById('resourceA').value = 10;
+    document.getElementById('resourceB').value = 5;
+    document.getElementById('resourceC').value = 7;
+  }
   
   function find_avai(){
     var a = document.getElementById('resourceA').value;
@@ -341,7 +362,10 @@ function reset(){
       {/* <!-- Algo Buttons Starts --> */}
       <div className="row m-5 text-center flex justify-center mt-10 gap-20 ">
         <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl " onClick={example}>Example</button>
+          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl " onClick={exampleDeadlock}>Example Deadlock</button>
+        </div>
+        <div className="col-4">
+          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl " onClick={example}>Example Safe</button>
         </div>
         <div className="col-4">
           <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl" onClick={run_algo}>Run Algorithm</button>

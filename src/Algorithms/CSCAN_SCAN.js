@@ -8,6 +8,7 @@ export const CSCAN_SCAN = () => {
     const [type, setType] = useState('');
     const [reqArr, setArr] = useState("0");
     const [seekTime,setSeekTime] = useState(0);
+    const[dirn,setDir] = useState("right");
     var final_seekTime ;
     const seekChange = (event)=>{
         setSeekTime(final_seekTime);
@@ -24,10 +25,13 @@ export const CSCAN_SCAN = () => {
     const handleub = (event) => {
         setub(parseInt(event.target.value));
     };
+    const handleDir = (event) => {
+        setDir(event.target.value);
+    };
 
 
     var head_Positions;
-    console.log(lb, ub, type, reqArr)
+    console.log(lb, ub, type, reqArr,dirn)
 
     const requestedArray = reqArr.match(/(?:\d+|null)/g).map(Number);
     console.log(requestedArray);
@@ -37,11 +41,11 @@ export const CSCAN_SCAN = () => {
     if(type==="cscan"){
 
     
-    //for cscan
+    
     function cscanScheduling(lb, ub, requestedArray, dir) {
         const queue = [...requestedArray];
         queue.push(lb, ub);
-        queue.sort((a, b) => a - b);
+        queue.sort((a, b) => a - b); //ascending order
         const startIdx = queue.findIndex((element) => element >= lb);
         console.log(startIdx)
         var direction = dir;
@@ -54,9 +58,17 @@ export const CSCAN_SCAN = () => {
             nextPos = queue.find((element) => element > headPos);
             if (nextPos === undefined) {
               direction = "left";
-              nextPos = queue[queue.length - 1];
+              //to firdt push 0 and then reversing the queue so that it handles all the head positions that come forw
+              
+              nextPos = queue[queue.length-1];
+            //   console.log("printing queue");
+            // console.log(queue)
             }
+            else{}
           } else {
+            // nextPos= queue.shift()
+            console.log("printing queue");
+            console.log(queue)
             nextPos = queue.reverse().find((element) => element < headPos);
             if (nextPos === undefined) {
               direction = "right";
@@ -69,7 +81,7 @@ export const CSCAN_SCAN = () => {
           totalSeekTime += seekTime;
           headPos = nextPos;
           headPositions.push(headPos);
-          queue.splice(queue.indexOf(nextPos), 1);
+          console.log(queue.splice(queue.indexOf(nextPos), 1));
         }
         final_seekTime = totalSeekTime;
         return headPositions;
@@ -106,7 +118,9 @@ export const CSCAN_SCAN = () => {
                     if (nextPos === undefined) {
                         // If there is no position to the left, switch direction
                         direction = "right";
-                        nextPos = queue.shift();
+                       
+                        nextPos=queue.reverse().shift();
+                        // nextPos = queue.shift();
                     } else {
                         // If there is a position to the left, reverse the queue again
                         queue.reverse();
@@ -123,7 +137,7 @@ export const CSCAN_SCAN = () => {
             final_seekTime = totalSeekTime;
             return headPositions;
         }
-        head_Positions = scanScheduling(lb, ub, requestedArray, "right");
+        head_Positions = scanScheduling(lb, ub, requestedArray, dirn);
 
     }
     // console.log(totalSeekTime);
@@ -155,7 +169,9 @@ const chartData = {
               ticks: {
                 beginAtZero: true,
               },
+              position:"top"
             },
+          
           ],
       yAxes: [
         {
@@ -163,6 +179,7 @@ const chartData = {
             min:lb,
             max:ub
           },
+          position:"right"
         },
       ],
     },
@@ -186,7 +203,7 @@ const chartData = {
                 {/* this is for entering the data or the input that we see  */}
                 <div className=' flex justify-center text-[20px] gap-44 pt-8'>
                     <div>
-                        <div className='text-center'>Lower Bound </div>
+                        <div className='text-center'>Head Position </div>
                         <input type="text" value={lb} className='text-black border-4 rounded-md ' id='lb' onChange={handlelb} />
                     </div>
                     <div>
@@ -200,6 +217,13 @@ const chartData = {
                             <option id='cscan' value="cscan">CSCAN</option>
                         </select>
                     </div>
+                    <div>
+                        <div className='text-center'>Direction</div>
+                        <select className='text-black border-4 rounded-md' onChange={handleDir} >
+                            <option id='left' value="left">Left</option>
+                            <option id='right' value="right">Right</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div className='flex mt-20 justify-center gap-8'>
@@ -209,8 +233,8 @@ const chartData = {
 
 
                 </div>
-                <div className="text-[20px] mt-10 flex justify-center">Total Seek Time: <div value={final_seekTime} onChange={seekChange} className="bg-white text-black"> 100</div> </div>
-                <div className='border-4 border-white p-6 mt-10'><MyChart/></div>
+                <div className="text-[20px] mt-10 flex justify-center">Total Seek Time: <div value={final_seekTime} onChange={seekChange} className="ml-4 rounded-md bg-white text-black"> {final_seekTime}</div> </div>
+                <div className='border-4 border-white mr-0 w-2/3 ml-1/2 p-6 mt-10'><MyChart/></div>
 
 
             </div>

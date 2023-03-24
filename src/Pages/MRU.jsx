@@ -1,7 +1,8 @@
 import React from 'react'
 import { Navbar } from '../Components/Navbar'
 import img from "../assets/images/rr.jpg"
-
+import MRU_sim from '../Algorithms/MRU_sim'
+import { Link } from 'react-router-dom'
 export const MRU = () => {
   return (
     <div>
@@ -26,7 +27,7 @@ export const MRU = () => {
           </div>
         </div>
         {/* direct to simulator */}
-        <button className='p-10 text-black border-2 border-black hover:border-white bg-yellow-500 hover:bg-yellow-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '>Go to Simulation</button>
+        <button className='p-10 text-black border-2 border-black hover:border-white bg-yellow-500 hover:bg-yellow-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '> <Link to='/simulation_MRU'>Go to Simulation</Link></button>
 
 
 
