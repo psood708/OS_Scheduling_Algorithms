@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useRef} from 'react';
 import { Navbar } from '../Components/Navbar';
 import { Link } from 'react-router-dom';
 export const  MRU_sim =()=> {
@@ -9,14 +9,24 @@ export const  MRU_sim =()=> {
 //3) make a function that would display H(hit) or F(fault) at the specific id that has been created below based on the MRU algorithm
 //4) Make a basic MRU algo that will be checking the previous value and accordingly map it onto the input fields
 //5) if any doubts contact me
+const reference_str = useRef(null);
+const [pageFrames, setPageFrames] = useState([-1, -1, -1,-1]);
+console.log(reference_str)
+// const final = referenceToArray(reference_str.value);
+// referenceToArray(reference_str);
+//completing the 1st thing
+
+function referenceToArray(arr){
+  const strArr = arr.split(",");
+  const numArr = strArr.map(str => Number(str));
+  return numArr;
+}
 
 
 
 
 
-
-
-  const [pageFrames, setPageFrames] = useState([-1, -1, -1,-1]);
+ 
 
   // Initialize the page reference string
   const pageReferences = [1, 2, 3, 4, 1, 5, 6, 7, 1, 8, 9, 2, 1, 5, 4, 6, 7, 9, 8, 3];
@@ -50,6 +60,22 @@ export const  MRU_sim =()=> {
       pageFrames[index] = page;
     }
   }
+
+function simulateAlgorithm(){
+
+}
+  // function simulateAlgorithm() {
+  //   const pageReferences = referenceToArray(reference_str.current.value);
+  //   const frames = [];
+  //   for (let i = 0; i < pageReferences.length; i++) {
+  //     const page = pageReferences[i];
+  //     if (!isPagePresent(page)) {
+  //       const index = findMostRecentlyUsedPage();
+  //       frames[index] = page;
+  //     }
+  //     setPageFrames(frames);
+  //   }
+  // }
 
   // Render the page frames on the webpage
   return (
@@ -205,4 +231,102 @@ export const  MRU_sim =()=> {
   );
 }
 
- 
+// import React, { useState } from 'react';
+
+// export const MRU_sim = () => {
+//   // Initialize state variables
+//   const [pageFrames, setPageFrames] = useState(0);
+//   const [pageReferences, setPageReferences] = useState('');
+//   const [pages, setPages] = useState([]);
+//   const [hits, setHits] = useState([]);
+//   const [faults, setFaults] = useState([]);
+  
+//   // Handle input change for page frames
+//   const handlePageFramesChange = (event) => {
+//     setPageFrames(parseInt(event.target.value));
+//     setPages(new Array(parseInt(event.target.value)).fill(null));
+//     setHits([]);
+//     setFaults([]);
+//   }
+  
+//   // Handle input change for page references
+//   const handlePageReferencesChange = (event) => {
+//     setPageReferences(event.target.value);
+//   }
+  
+//   // Handle submit event
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     const pageReferencesArray = pageReferences.split(' ').map(Number);
+//     let mruList = [];
+//     let hitsArray = [];
+//     let faultsArray = [];
+//     let hitFlag = false;
+//     for (let i = 0; i < pageReferencesArray.length; i++) {
+//       let pageNumber = pageReferencesArray[i];
+//       hitFlag = false;
+//       for (let j = 0; j < mruList.length; j++) {
+//         if (mruList[j] === pageNumber) {
+//           hitsArray.push(pageNumber);
+//           faultsArray.push(null);
+//           hitFlag = true;
+//           break;
+//         }
+//       }
+//       if (!hitFlag) {
+//         let index = mruList.indexOf(null);
+//         if (index === -1) {
+//           index = mruList.length - 1;
+//         }
+//         mruList[index] = pageNumber;
+//         faultsArray.push(pageNumber);
+//         hitsArray.push(null);
+//       }
+//     }
+//     setHits(hitsArray);
+//     setFaults(faultsArray);
+//   }
+  
+//   // Render MRU algorithm form and visualisation
+//   return (
+//     <div>
+//       <h1>MRU Algorithm</h1>
+//       <form onSubmit={handleSubmit}>
+//         <div>
+//           <label>Page Frames:</label>
+//           <input type="number" value={pageFrames} onChange={handlePageFramesChange} />
+//         </div>
+//         <div>
+//           <label>Page References:</label>
+//           <input type="text" value={pageReferences} onChange={handlePageReferencesChange} />
+//         </div>
+//         <button type="submit">Run MRU Algorithm</button>
+//       </form>
+//       {hits.length > 0 && faults.length > 0 &&
+//         <div>
+//           <h2>MRU Algorithm Visualisation</h2>
+//           <table>
+//             <thead>
+//               <tr>
+//                 <th>Page Frames</th>
+//                 <th>Page References</th>
+//                 <th>Hits</th>
+//                 <th>Faults</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {pages.map((value, index) => (
+//                 <tr key={index}>
+//                   <td>{index + 1}</td>
+//                   <td>{pageReferences.split(' ')[index]}</td>
+//                   <td>{hits[index] !== null ? 'Hit' : ''}</td>
+//                   <td>{faults[index] !== null ? 'Fault' : ''}</td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       }
+//     </div>
+//   );
+// }

@@ -1,6 +1,7 @@
 import React from 'react'
 import img  from "../assets/images/rr.jpg"
 import { Navbar } from '../Components/Navbar'
+import { Link } from 'react-router-dom'
 export const RoundRobin = () => {
   
   return (
@@ -22,7 +23,7 @@ export const RoundRobin = () => {
         </div>
         </div>
         {/* direct to simulator */}
-      <button className='p-10 text-black border-2 border-black hover:border-white bg-red-500 hover:bg-red-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '>Go to Simulation</button>
+      <button className='p-10 text-black border-2 border-black hover:border-white bg-red-500 hover:bg-red-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '><Link to="/roundrobins">Go to Simulation</Link></button>
 
 
 
