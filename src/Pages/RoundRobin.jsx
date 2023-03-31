@@ -15,9 +15,18 @@ export const RoundRobin = () => {
         <img src={img} alt="roundrobin" className='w-5/12 rounded-xl ml-10'></img>
         <div> 
           <ul className='list-disc p-8 text-[20px]'>
-            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard d only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was  </li>
-            <li className='mt-6'>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin pr red the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bo </li>
-            <li className='mt-6'>It look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various vers</li>
+            <li>rst, the Procedure of the Round Robin Algorithm
+
+The Round Robin algorithm is widely used in operating systems for scheduling central processing units. The goal of the algorithm is to fairly and equitably distribute CPU time among running processes. The Round Robin algorithm consists of the following operations:
+Put all processes that are ready to run into the ready queue. Define a time slice, also called a time quantum, which is the most processing time a task can use before being preempted. For the given time slice, run the first process in the ready queue.
+If the process completes its execution within the time slice, it is taken out of the ready queue. The process is preempted and pushed to the end of the ready queue if it does not finish executing within the time slice. It is necessary to repeat steps 3-5 until all processes in the ready queue have completed their execution.
+The Round Robin algorithm ensures that all running processes are given the same amount of time on the CPU. In addition, the algorithm ensures that no single process will ever have exclusive access to the central processing unit (CPU) for too long.
+</li>
+            <li className='mt-6'>Round Robin Algorithm Benefits: The algorithm guarantees that no programme is given preferential treatment and that all receive the same amount of processing time.
+The algorithm ensures that no single task will consume excessive CPU time. This suggests that quick execution times are achieved for processes with low execution times.
+The algorithm allows for preemption, which means that one process can be replaced by another in the middle of its execution. This avoids situations where one process becomes stuck and impedes another.
+</li>
+            <li className='mt-6'>Some drawbacks of the Round Robin algorithm are as follows: The algorithm has a high overhead because of the need to manage a ready queue and separate time into discrete chunks. Especially when dealing with a large number of processes, this can cause overall performance to suffer. When there are many concurrently running processes, the algorithm may not function optimally. This is because there is a limited amount of time that a process can use the CPU before being preempted, which can lead to a lot of context switching and overhead. The algorithm's efficiency relies heavily on the time quantum used. There will be excessive context switching if the time quantum is too small, while prolonged CPU monopolisation by processes is possible if the time quantum is too large</li>
           </ul>
         </div>
         </div>
