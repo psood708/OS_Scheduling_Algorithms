@@ -31,10 +31,10 @@ export const CSCAN_SCAN = () => {
 
 
     var head_Positions;
-    console.log(lb, ub, type, reqArr,dirn)
+    // console.log(lb, ub, type, reqArr,dirn)
 
     const requestedArray = reqArr.match(/(?:\d+|null)/g).map(Number);
-    console.log(requestedArray);
+    // console.log(requestedArray);
 //this command is for scanScheduling
     
 
@@ -46,8 +46,8 @@ export const CSCAN_SCAN = () => {
         const queue = [...requestedArray];
         queue.push(lb, ub);
         queue.sort((a, b) => a - b); //ascending order
-        const startIdx = queue.findIndex((element) => element >= lb);
-        console.log(startIdx)
+        // const startIdx = queue.findIndex((element) => element >= lb);
+        
         var direction = dir;
         let headPos = lb;
         let totalSeekTime = 0;
@@ -57,19 +57,19 @@ export const CSCAN_SCAN = () => {
           if (direction === "right") {
             nextPos = queue.find((element) => element > headPos);
             if (nextPos === undefined) {
-              direction = "left";
+              queue.push(0);
+              direction = "right";
               //to firdt push 0 and then reversing the queue so that it handles all the head positions that come forw
               
               nextPos = queue[queue.length-1];
-            //   console.log("printing queue");
-            // console.log(queue)
             }
-            else{}
           } else {
             // nextPos= queue.shift()
-            console.log("printing queue");
-            console.log(queue)
+            // console.log("printing queue");
+            // console.log(queue)
             nextPos = queue.reverse().find((element) => element < headPos);
+            // console.log("we are chcking");
+            // console.log(nextPos);
             if (nextPos === undefined) {
               direction = "right";
               nextPos = queue[0];
@@ -81,7 +81,7 @@ export const CSCAN_SCAN = () => {
           totalSeekTime += seekTime;
           headPos = nextPos;
           headPositions.push(headPos);
-          console.log(queue.splice(queue.indexOf(nextPos), 1));
+          queue.splice(queue.indexOf(nextPos), 1);
         }
         final_seekTime = totalSeekTime;
         return headPositions;
@@ -109,6 +109,7 @@ export const CSCAN_SCAN = () => {
                     nextPos = queue.find((element) => element > headPos);
                     if (nextPos === undefined) {
                         // If there is no position to the right, switch direction
+                        // queue.push(0);
                         direction = "left";
                         nextPos = queue.pop();
                     }
@@ -117,6 +118,7 @@ export const CSCAN_SCAN = () => {
                     nextPos = queue.reverse().find((element) => element < headPos);
                     if (nextPos === undefined) {
                         // If there is no position to the left, switch direction
+                        queue.push(0);
                         direction = "right";
                        
                         nextPos=queue.reverse().shift();
@@ -147,43 +149,76 @@ export const CSCAN_SCAN = () => {
 
 
 //   const ctx = canvas.getAttribute("2d")
-
 const chartData = {
-    labels: [], // Will be populated with the position numbers
-    datasets: [
+  labels: head_Positions.map((pos) => pos.toString()),
+  datasets: [
+    {
+      label: "Head Positions",
+      data: head_Positions,
+      fill: false,
+      borderColor: "rgba(75,192,192,1)",
+      lineTension: 0.1,
+    },
+  ],
+};
+
+const chartOptions = {
+  scales: {
+    xAxes: [
       {
-        label: "Disk Head Position",
-        data: [], // Will be populated with the disk head position at each step
-        fill: false,
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 1,
-        
+        ticks: {
+          beginAtZero: true,
+        },
+        position: "top",
       },
     ],
-  };
-  
-  const chartOptions = {
-    scales: {
-        xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-              position:"top"
-            },
-          
-          ],
-      yAxes: [
-        {
-          ticks: {
-            min:lb,
-            max:ub
-          },
-          position:"right"
+    yAxes: [
+      {
+        ticks: {
+          min: 0,
+          max: ub,
         },
-      ],
-    },
-  };
+        position: "top",
+      },
+    ],
+  },
+};
+// const chartData = {
+//     labels: [], // Will be populated with the position numbers
+//     datasets: [
+//       {
+//         label: "Disk Head Position",
+//         data: [], // Will be populated with the disk head position at each step
+//         fill: false,
+//         borderColor: "rgba(54, 162, 235, 1)",
+//         borderWidth: 1,
+        
+//       },
+//     ],
+//   };
+  
+  // const chartOptions = {
+  //   scales: {
+  //       xAxes: [
+  //           {
+  //             ticks: {
+  //               beginAtZero: true,
+  //             },
+  //             position:"top"
+  //           },
+          
+  //         ],
+  //     yAxes: [
+  //       {
+  //         ticks: {
+  //           min:lb,
+  //           max:ub
+  //         },
+  //         position:"right"
+  //       },
+  //     ],
+  //   },
+  // };
   chartData.labels = head_Positions.map((pos)=>pos.toString());
   chartData.datasets[0].data=head_Positions;
   console.log("ChartLabels")

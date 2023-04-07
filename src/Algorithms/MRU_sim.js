@@ -1,373 +1,362 @@
-import React, { useState ,useRef} from 'react';
-import { Navbar } from '../Components/Navbar';
-import { Link } from 'react-router-dom';
-export const  MRU_sim =()=> {
-  
-//things to do
-//1) Make a function that will convert the referensce string to an array seperating the commas
-
-function referenceStringToArray(referenceString) {
-  return referenceString.split(",");
-}
-//2) Take the number from the array above and map it into the the input fiels --> you will require a function here to map
-
-// function arrayMapping() {
-//   pageReference = referenceStringToArray(referenceString);
-
-// function renderInputFields(pageReference,  {
-//   return pageReference.map((number, index)=>(
-//     <input 
-//     type="number"
-//     key={index}
-//     value={number}
-//     // onChange={(e)=>}    
-//     />
-//   ))
-//   })
-// }
-//3) make a function that would display H(hit) or F(fault) at the specific id that has been created below based on the MRU algorithm
-//This function is invoked when there at every index o find if it is a hit or not
-function hitOrFault(id){
-  const hit=0, fault=0;
-  const index = pageReferences.indexOf(id);
-  if(index != -1){
-    hit ++;
-    pageReferences.splice(index, 1) //As Hit has occured, it will remove the index from the array.
-  }
-  else{
-    fault++;
-    if(pageReferences.length == pageFrames.length){
-      //The page memory is full which constitutes, removing the oldest from the array i.e replacing it with newly used.
-      pageReferences.shift();
-    }
-  }
-  //We don't have to 
-  pageReferences.push(id);
-  return hit, fault;
-}
-
-//4) Make a basic MRU algo that will be checking the previous value and accordingly map it onto the input fields
-
-
-//5) if any doubts contact me
-const reference_str = useRef(null);
-const [pageFrames, setPageFrames] = useState([-1, -1, -1,-1]);
-console.log(reference_str)
-// const final = referenceToArray(reference_str.value);
-// referenceToArray(reference_str);
-//completing the 1st thing
-
-function referenceToArray(arr){
-  const strArr = arr.split(",");
-  const numArr = strArr.map(str => Number(str));
-  return numArr;
-}
-
-
-
-
-
  
+ 
+//importing necessary modules and css file
+import { Navbar } from "../Components/Navbar";
+import React, { useState } from "react";
+import "../Algorithms/new.css";
+//Defining the functional Component
+export function MRU_sim()
+{
+    //intializing state variables using useState hooks
+    const [pageRefrences,SetpageRefrences] = useState([]);
+    const [Frames,SetFrames] = useState(0);
+    const [componetMemoryState,SetComponentMemoryState] = useState([]);
+  const [pageFaults, setPageFaults] = useState(0);
+  const [color, setColor] = useState(null);
+  const [tableData, setTableData] = useState([]);
+  const [tableHeading, setTableHeading] = useState(false)
+  const [pageFaultParagraph, setPageFaultParagraph] = useState(false)
 
-  // Initialize the page reference string
-  const pageReferences = [1, 2, 3, 4, 1, 5, 6, 7, 1, 8, 9, 2, 1, 5, 4, 6, 7, 9, 8, 3];
+    //function to handle page refrence string taken as input
+    const HandlePageRefrences = (event) =>{
 
-  // Define a function to check if a page is present in the page frames
-  function isPagePresent(page) {
-    for (let i = 0; i < pageFrames.length; i++) {
-      if (pageFrames[i] === page) {
-        return true;
-      }
+        const refrenceString = event.target.value //converting string to array
+        .split("")
+        .map((reference) => parseInt(reference.trim()))
+        .filter((reference) => !isNaN(reference));
+        SetpageRefrences(refrenceString);
     }
-    return false;
-  }
+    //function to handle changes in number of frames
+    const HandleFrames = (event) => {
 
-  // Define a function to find the most recently used page in the page frames
-  function findMostRecentlyUsedPage() {
-    let mostRecentlyUsedPage = -1;
-    for (let i = 0; i < pageFrames.length; i++) {
-      if (pageReferences.lastIndexOf(pageFrames[i]) > mostRecentlyUsedPage) {
-        mostRecentlyUsedPage = pageReferences.lastIndexOf(pageFrames[i]);
-      }
+        const Frames = parseInt(event.target.value);
+        SetFrames(Frames);
+       SetComponentMemoryState(Array(Frames).fill(null));
+
     }
-    return mostRecentlyUsedPage;
-  }
+    //handling the simulate button
+    const HandleSimulate = () =>{
+        let newTableData = [];
+        let pageFaults = 0;
+        let componetMemoryState = Array(Frames).fill(null);
+       
+        //looping page refrence array
+        for (let i = 0; i < pageRefrences.length; i++) {
+                  const page = pageRefrences[i];
 
-  // Iterate through the page reference string and simulate the page replacement algorithm
-  for (let i = 0; i < pageReferences.length; i++) {
-    const page = pageReferences[i];
-    if (!isPagePresent(page)) {
-      const index = findMostRecentlyUsedPage();
-      pageFrames[index] = page;
+      if (!componetMemoryState.includes(page)) { //page not in frame,page fault occurs
+        
+        pageFaults++;
+        
+        
+        // if there is an empty frame,page added to frame,
+        if (componetMemoryState.includes(null)) {
+          const index = componetMemoryState.indexOf(null);
+          componetMemoryState[index] = page;     
     }
-  }
-
-function simulateAlgorithm(){
-
-}
-  // function simulateAlgorithm() {
-  //   const pageReferences = referenceToArray(reference_str.current.value);
-  //   const frames = [];
-  //   for (let i = 0; i < pageReferences.length; i++) {
-  //     const page = pageReferences[i];
-  //     if (!isPagePresent(page)) {
-  //       const index = findMostRecentlyUsedPage();
-  //       frames[index] = page;
-  //     }
-  //     setPageFrames(frames);
-  //   }
-  // }
-
-  // Render the page frames on the webpage
-  return (
-    <div className=' text-white bg-[#131316] font-Gloock items-center'>
-      <Navbar/>
-      
-      <div className="container pt-5 justify-center">
-      <h2 className="text-center subheading text-[40px] p-7">Most Recently Used(MRU) Page Replacement</h2>
-    </div>
-    <div className="container bg-red-600 ">
-      <div className="row p-2 pt-5 text-[20px] flex gap-24 justify-center ">
-        {/* <!-- Total Instance Form Starts --> */}
-        <div className='col-10 text-center '>
-          <table className='text-center'>
-           <thead>
-             <tr>
-              <th > MRU Chart</th>
-             </tr>
-            </thead>  
-            <tbody>
-              <tr>
-              
-                <td>f4</td>
-                <td><input size="3" maxLength="2" id='a01' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a02' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a03' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a04' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a05' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a06' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a07' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a08' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a09' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a10' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a11' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a12' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a13' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a14' className='text-black'/></td>
-                <td><input size="3" maxLength="2" id='a15' className='text-black'/></td>
-              
-              </tr>
-              <tr>
-              
-              <td>f3</td>
-              <td><input size="3" maxLength="2" id='b01' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b02' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b03' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b04' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b05' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b06' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b07' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b08' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b09' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b10' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b11' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b12' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b13' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b14' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='b15' className='text-black'/></td>
-            
-            </tr>
-            <tr>
-              
-              <td>f2</td>
-              <td><input size="3" maxLength="2" id='c01' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c02' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c03' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c04' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c05' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c06' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c07' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c08' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c09' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c10' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c11' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c12' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c13' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c14' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='c15' className='text-black'/></td>
-            
-            </tr>
-            <tr>
-              
-              <td>f1</td>
-              <td><input size="3" maxLength="2" id='d01' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d02' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d03' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d04' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d05' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d06' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d07' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d08' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d09' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d10' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d11' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d12' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d13' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d14' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='d15' className='text-black'/></td>
-            
-            </tr>
-            <tr>
-              
-              <td>H/F</td>
-              <td><input size="3" maxLength="2" id='r01' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r02' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r03' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r04' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r05' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r06' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r07' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r08' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r09' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r10' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r11' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r12' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r13' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r14' className='text-black'/></td>
-              <td><input size="3" maxLength="2" id='r15' className='text-black'/></td>
-            
-            </tr>
-            </tbody>
-          </table>  
-        </div>
-
-        <div >
-          <div>Reference String</div>
-          <input id="ref" className='text-black'></input>
-        </div>
+    //if all frames occupied,page with maximum distance to next occurence is replaced
+    else {
+        let distances = componetMemoryState.map((Frame) => {
+          const remainingPages = pageRefrences.slice(i + 1);//a subarray of remaining pages
+          const nextIndex = remainingPages.indexOf(Frame);
+          return nextIndex === -1 ? Infinity : nextIndex;
          
-        {/* <!-- Total Instance Form Ends --> */}
-      </div>
-    </div>
-    <div className="container pt-5 ">
-      <div className="row flex justify-center gap-28 text-[25px]">
-      </div>
-
-      {/* <!-- Algo Buttons Starts --> */}
-      <div className="row m-5 text-center flex justify-center mt-10 gap-20 pb-10 bg-[#131316]">
-         
-        <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d2929] p-4 rounded-xl" onClick={""}>Run Algorithm</button>
-        </div>
-        <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d2a29] p-4 rounded-xl" onClick={""}>Reset Values</button>
-        </div>
-      </div>
-      {/* <!-- Algo Buttons Ends --> */}
+        });
+        const index = distances.indexOf(Math.max(...distances));
+        componetMemoryState[index] = page;
+      }   
       
       
-    </div>
-      
-    </div>
-  );
 }
+//Adding the page,page fault count and component memory state  to table data array
+newTableData.push({
+    page: page,
+    pageFault: pageFaults,
+    memory: [...componetMemoryState],
+  });
 
-// import React, { useState } from 'react';
 
-// export const MRU_sim = () => {
-//   // Initialize state variables
-//   const [pageFrames, setPageFrames] = useState(0);
-//   const [pageReferences, setPageReferences] = useState('');
-//   const [pages, setPages] = useState([]);
-//   const [hits, setHits] = useState([]);
-//   const [faults, setFaults] = useState([]);
-  
-//   // Handle input change for page frames
-//   const handlePageFramesChange = (event) => {
-//     setPageFrames(parseInt(event.target.value));
-//     setPages(new Array(parseInt(event.target.value)).fill(null));
-//     setHits([]);
-//     setFaults([]);
+        }
+//updating state variables aftter simulation
+     setPageFaults(pageFaults);
+    SetComponentMemoryState(componetMemoryState);
+    setTableData(newTableData);
+    setTableHeading(true)
+    setPageFaultParagraph(true)
+    }
+
+   
+
+return( //displaying the page
+ <div className="font-Gloock bg-[#131316] text-white">
+ <Navbar/>
+ 
+<div className="Heading text-[40px] flex justify-center" ><h1>MRU Algorithm</h1></div>
+<div className="flex gap-[10%]">
+<div className="Frames text-[20px]">
+    <label>
+        Number of Frames 
+        <input
+          type="Number"
+           value={Frames} defaultValue={1}
+          onChange={HandleFrames}
+        ></input>
+        
+      </label>
+    
+</div>
+<div className="PageRefrences text-[20px]">
+    <label>
+        Reference String : 
+        <input
+          type="Text"
+          min="1" defaultValue={1}
+          onChange={HandlePageRefrences}
+        ></input>
+        
+      </label>
+    
+</div>
+</div>
+<div className="btn bg-yellow-400 flex justify-center rounded-xl text-black hover:bg-yellow-600 duration-500 hover:text-white">
+    <button onClick={HandleSimulate}>Simulate</button>
+</div>
+<div className="table">
+<div className="table">
+  {tableHeading && (
+    <table className="table" id="myTable">
+      
+      <thead>
+  <tr className="text-black">
+    <th>Hit or Fault</th>
+    {/* This code displays the frame numbers */}
+    {pageRefrences.map((num, index) => ( //to display page refrences in table
+      <th key={index}> {num}</th>//key to identify each element in the list
+    ))}
+    {/* <th>Page Fault</th> */}
+  </tr>
+</thead>
+<tbody>
+
+      
+        {/* This code displays the page numbers and their corresponding frames */}
+        {tableData[0].memory.map((frame, index) => (
+          <tr key={index}>
+            <td>Frame {index}</td>
+            {tableData.map((row, rowIndex) => (
+              <td key={rowIndex} >{row.memory[index]}</td>
+
+            ))}
+            {/* <td>{tableData[index].pageFaults}</td> */}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+<br></br>
+{/* diplaying final results */}
+<div className="totalRef">
+  <h3>The total number of refrences are: {pageRefrences.length} </h3>
+</div>
+  <br></br>
+
+  <div className="misses">
+    <h3>The number of misses are: {pageFaults} </h3>
+  </div>
+    <br></br>
+  <div className="hits">
+    <h3>The number of hits are: {pageRefrences.length-pageFaults}</h3>
+  </div>
+  <br></br>
+
+
+  <div className="hitRate">
+    <h3>The Hit Rate is : {(pageRefrences.length-pageFaults)*100/pageRefrences.length} %</h3>
+  </div>
+  <br></br>
+  <div className="missrate">
+    <h3>The Miss Rate is : {(pageFaults)*100/pageRefrences.length} % </h3>
+  </div>
+
+</div>
+</div>
+
+
+</div>
+);
+
+}; 
+
+export default MRU_sim;
+
+
+//MRU from down below heres
+
+// import { Navbar } from "../Components/Navbar";
+// import React, { useState } from "react";
+// import "../Algorithms/new.css";
+
+// export function MRU_sim() {
+//   const [pageReferences, setPageReferences] = useState([]);
+//   const [frames, setFrames] = useState(0);
+//   const [componentMemoryState, setComponentMemoryState] = useState([]);
+//   const [pageFaults, setPageFaults] = useState(0);
+//   const [color, setColor] = useState(null);
+//   const [tableData, setTableData] = useState([]);
+//   const [tableHeading, setTableHeading] = useState(false)
+//   const [pageFaultParagraph, setPageFaultParagraph] = useState(false)
+
+//   const handlePageReferences = (event) => {
+//     const referenceString = event.target.value.split("")
+//       .map((reference) => parseInt(reference.trim()))
+//       .filter((reference) => !isNaN(reference));
+//     setPageReferences(referenceString);
 //   }
-  
-//   // Handle input change for page references
-//   const handlePageReferencesChange = (event) => {
-//     setPageReferences(event.target.value);
+
+//   const handleFrames = (event) => {
+//     const Frames = parseInt(event.target.value);
+//     setFrames(Frames);
+//     setComponentMemoryState(Array(Frames).fill(null));
 //   }
-  
-//   // Handle submit event
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const pageReferencesArray = pageReferences.split(' ').map(Number);
-//     let mruList = [];
-//     let hitsArray = [];
-//     let faultsArray = [];
-//     let hitFlag = false;
-//     for (let i = 0; i < pageReferencesArray.length; i++) {
-//       let pageNumber = pageReferencesArray[i];
-//       hitFlag = false;
-//       for (let j = 0; j < mruList.length; j++) {
-//         if (mruList[j] === pageNumber) {
-//           hitsArray.push(pageNumber);
-//           faultsArray.push(null);
-//           hitFlag = true;
-//           break;
+
+//   const handleSimulate = () => {
+//     let newTableData = [];
+//     let pageFaults = 0;
+//     let componentMemoryState = Array(frames).fill(null);
+
+//     for (let i = 0; i < pageReferences.length; i++) {
+//       const page = pageReferences[i];
+
+//       if (!componentMemoryState.includes(page)) { // page not in frame, page fault occurs
+//         pageFaults++;
+        
+//         if (componentMemoryState.includes(null)) { // if there is an empty frame, page added to frame
+//           const index = componentMemoryState.indexOf(null);
+//           componentMemoryState[index] = page;     
+//         } else { // if all frames are occupied, replace the page that was most recently used
+//           const index = componentMemoryState.lastIndexOf(page);
+//           if (index === -1) {
+//             // if the page is not already in the frame, replace the page that was most recently used
+//             const mruPage = componentMemoryState.reduceRight((prev, curr, idx) => {
+//               if (curr !== null && componentMemoryState.lastIndexOf(curr) > idx && componentMemoryState.lastIndexOf(curr) > componentMemoryState.lastIndexOf(prev)) {
+//                 return curr;
+//               } else {
+//                 return prev;
+//               }
+//             }, componentMemoryState[0]);
+//             index = componentMemoryState.lastIndexOf(mruPage);
+//           }
+//           componentMemoryState[index] = page;
 //         }
 //       }
-//       if (!hitFlag) {
-//         let index = mruList.indexOf(null);
-//         if (index === -1) {
-//           index = mruList.length - 1;
-//         }
-//         mruList[index] = pageNumber;
-//         faultsArray.push(pageNumber);
-//         hitsArray.push(null);
-//       }
+      
+//       newTableData.push({
+//         page: page,
+//         pageFault: pageFaults,
+//         memory: [...componentMemoryState],
+//       });
 //     }
-//     setHits(hitsArray);
-//     setFaults(faultsArray);
+
+//     setPageFaults(pageFaults);
+//     setComponentMemoryState(componentMemoryState);
+//     setTableData(newTableData);
+//     setTableHeading(true);
+//     setPageFaultParagraph(true);
 //   }
-  
-//   // Render MRU algorithm form and visualisation
+
 //   return (
-//     <div>
-//       <h1>MRU Algorithm</h1>
-//       <form onSubmit={handleSubmit}>
-//         <div>
-//           <label>Page Frames:</label>
-//           <input type="number" value={pageFrames} onChange={handlePageFramesChange} />
+//     <div className="font-Gloock bg-[#131316] text-white">
+//       <Navbar/>
+//       <div className="Heading text-[40px] flex justify-center"><h1>MRU Algorithm</h1></div>
+//       <div className="flex gap-[10%]">
+//         <div className="Frames text-[20px]">
+//           <label>
+//             Number of Frames 
+//             <input
+//               type="Number"
+//               value={frames}
+//               defaultValue={1}
+//               onChange={handleFrames}
+//             ></input>
+//           </label>
 //         </div>
-//         <div>
-//           <label>Page References:</label>
-//           <input type="text" value={pageReferences} onChange={handlePageReferencesChange} />
+//         <div className="PageRefrences text-[20px]">
+//           <label>
+//             Reference String: 
+//             <input
+//               type="Text"
+//               min="1"
+//               defaultValue={1}
+//               onChange={handlePageReferences}
+//             ></input>
+//           </label>
 //         </div>
-//         <button type="submit">Run MRU Algorithm</button>
-//       </form>
-//       {hits.length > 0 && faults.length > 0 &&
-//         <div>
-//           <h2>MRU Algorithm Visualisation</h2>
-//           <table>
-//             <thead>
-//               <tr>
-//                 <th>Page Frames</th>
-//                 <th>Page References</th>
-//                 <th>Hits</th>
-//                 <th>Faults</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {pages.map((value, index) => (
-//                 <tr key={index}>
-//                   <td>{index + 1}</td>
-//                   <td>{pageReferences.split(' ')[index]}</td>
-//                   <td>{hits[index] !== null ? 'Hit' : ''}</td>
-//                   <td>{faults[index] !== null ? 'Fault' : ''}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       }
-//     </div>
-//   );
-// }
+//       </div>
+//       <div className="btn bg-yellow-400 flex justify-center rounded-xl text-black hover:bg-yellow-600 duration-500 hover:text-white">
+//      <button onClick={handleSimulate}>Simulate</button>
+//  </div>
+//  <div className="table">
+//  <div className="table">
+//  {tableHeading && (
+//   <table className="table" id="myTable">
+//     <thead>
+//       <tr className="text-black">
+//         <th>Hit or Fault</th>
+//         {/* This code displays the page references */}
+//         {pageReferences.map((num, index) => (
+//           <th key={index}> {num}</th>
+//         ))}
+//       </tr>
+//     </thead>
+//     <tbody>
+//       {/* This code displays the page numbers and their corresponding frames */}
+//       {componentMemoryState.map((frame, index) => (
+//         <tr key={index}>
+//           <td>Frame {index}</td>
+//           {tableData.map((row, rowIndex) => (
+//             <td key={rowIndex} className={row.memory[index] === null ? "table-warning" : row.memory[index] === componentMemoryState[index] ? "table-success" : "table-danger"}>
+//               {row.memory[index] !== null ? row.memory[index] : "-"}
+//             </td>
+//           ))}
+//         </tr>
+//       ))}
+//     </tbody>
+//   </table>
+// )}
+
+// <br></br>
+// {/* diplaying final results */}
+// <div className="totalRef">
+//   <h3>The total number of refrences are: {pageReferences.length} </h3>
+// </div>
+//   <br></br>
+
+//   <div className="misses">
+//     <h3>The number of misses are: {pageFaults} </h3>
+//   </div>
+//     <br></br>
+//   <div className="hits">
+//     <h3>The number of hits are: {pageReferences.length-pageFaults}</h3>
+//   </div>
+//   <br></br>
+
+
+//   <div className="hitRate">
+//     <h3>The Hit Rate is : {(pageReferences.length-pageFaults)*100/pageReferences.length} %</h3>
+//   </div>
+//   <br></br>
+//   <div className="missrate">
+//     <h3>The Miss Rate is : {(pageFaults)*100/pageReferences.length} % </h3>
+//   </div>
+
+// </div>
+// </div>
+
+
+// </div>
+// );
+
+// }; 
+
+// export default MRU_sim;

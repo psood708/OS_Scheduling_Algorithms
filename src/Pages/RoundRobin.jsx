@@ -16,7 +16,7 @@ export const RoundRobin = () => {
         <img src={img} alt="roundrobin" className='w-5/12 rounded-xl ml-10'></img>
         <div> 
           <ul className='list-disc p-8 text-[20px]'>
-            <li>rst, the Procedure of the Round Robin Algorithm
+            <li> Procedure of the Round Robin Algorithm
 
 The Round Robin algorithm is widely used in operating systems for scheduling central processing units. The goal of the algorithm is to fairly and equitably distribute CPU time among running processes. The Round Robin algorithm consists of the following operations:
 Put all processes that are ready to run into the ready queue. Define a time slice, also called a time quantum, which is the most processing time a task can use before being preempted. For the given time slice, run the first process in the ready queue.
