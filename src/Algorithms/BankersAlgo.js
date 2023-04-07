@@ -94,8 +94,6 @@ function reset(){
     }
   }
   
-    if(a==b==c==x==y==z==0)
-        alert("enter a valid input !");
   
   function run_algo(){
     find_avai();
