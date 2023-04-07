@@ -7,6 +7,13 @@ import "../Algorithms/new.css";
 //Defining the functional Component
 export function MRU_sim()
 {
+
+
+//Time Complexity of MRU
+  // Best case: O(1)
+  // Average case: O(n)
+  // worst case: O(n)
+
     //intializing state variables using useState hooks
     const [pageRefrences,SetpageRefrences] = useState([]);
     const [Frames,SetFrames] = useState(0);
@@ -108,7 +115,7 @@ export function MRU_sim()
    
 
 return( //displaying the page
- <div className="font-Gloock bg-[#131316] text-white h-full">
+ <div className="font-Gloock bg-[#131316] pb-32 text-white h-full">
  <Navbar/>
  
 <div className="Heading text-[40px] flex justify-center" ><h1>MRU Algorithm</h1></div>

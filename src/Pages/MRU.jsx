@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar } from '../Components/Navbar'
-import img from "../assets/images/rr.jpg"
+import img from "../assets/mru.jpg"
 import MRU_sim from '../Algorithms/MRU_sim'
 import { Link } from 'react-router-dom'
 export const MRU = () => {

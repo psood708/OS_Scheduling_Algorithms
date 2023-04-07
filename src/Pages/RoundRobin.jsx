@@ -33,7 +33,7 @@ export const RoundRobin = () => {
             </div>
             {/* direct to simulator */}
 
-            <button className='p-10 text-black border-2 border-black hover:border-white bg-red-500 hover:bg-red-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '><Link to="https://os-projects-febmsvzog-priyank-vaidya.vercel.app/roundrobins" target='_blank'>Go to Simulation</Link></button>
+            <button className='p-10 text-black border-2 border-black hover:border-white bg-red-500 hover:bg-red-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '><Link to="https://os-projects-chi.vercel.app/roundrobins" target='_blank'>Go to Simulation</Link></button>
         </div>
 
         )

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import img from "../assets/images/disc1.png"
 export const Section = () => {
   return (
-    <div className='bg-[#131316] text-white font-Gloock '>
+    <div className='bg-[#131316] pb-24 text-white font-Gloock '>
         <div className='bg-[#131316]' >
           {/* thing 0 */}
             <div className='-z-10 lg:hidden'>
