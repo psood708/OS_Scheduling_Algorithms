@@ -11,7 +11,7 @@ function reset(){
         document.getElementById('a'+i+j).value = isReset;
         document.getElementById('m'+i+j).value = isReset;
         document.getElementById('n'+i+j).value = isReset;
-        console.log('a'+i+j)
+        // console.log('a'+i+j)
       }
       document.getElementById('p'+i).value = '';
     }
@@ -182,13 +182,13 @@ function reset(){
       </div>
     </div>
     <div className="container pt-5 ">
-      <div className="row flex justify-center gap-28 text-[25px]">
+      <div className="row flex justify-center gap-24   text-[25px]">
         {/* <!-- Allocation Form Starts --> */}
         <div className="col-3 text-center">
           <table className="text-center">
             <thead>
               <tr>
-                <th colspan="4"><h4>Allocation</h4></th>
+                <th colSpan="4"><h4>Allocation</h4></th>
               </tr>
             </thead>
             <tbody>
@@ -238,7 +238,7 @@ function reset(){
           <table className="text-center">
             <thead>
               <tr>
-                <th colspan="4"><h4>Maximum</h4></th>
+                <th colSpan="4"><h4>Maximum</h4></th>
               </tr>
             </thead>
             <tbody>
@@ -288,7 +288,7 @@ function reset(){
           <table className="text-center">
             <thead>
               <tr>
-                <th colspan="4"><h4>Available</h4></th>
+                <th colSpan="4"><h4>Available</h4></th>
               </tr>
             </thead>
             <tbody>
@@ -313,7 +313,7 @@ function reset(){
           <table className="text-center">
             <thead>
               <tr>
-                <th colspan="4"><h4>Need</h4></th>
+                <th colSpan="4"><h4>Need</h4></th>
               </tr>
             </thead>
             <tbody>
@@ -360,20 +360,20 @@ function reset(){
       </div>
 
       {/* <!-- Algo Buttons Starts --> */}
-      <div className="row m-5 text-center flex justify-center mt-10 gap-20 ">
-        <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl " onClick={exampleDeadlock}>Example Deadlock</button>
+      <div className="  text-center flex justify-center gap-0 mt-10 ">
+        <div className="col-4 w-1/2"> 
+          <button  className=" bg-[#3d3d29] p-6 rounded-xl " onClick={exampleDeadlock}>Example Deadlock</button>
         </div>
-        <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl " onClick={example}>Example Safe</button>
+        <div className="col-4 w-1/2">
+          <button  className=" bg-[#3d3d29] p-6 rounded-xl " onClick={example}>Example Safe</button>
         </div>
-        <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl" onClick={run_algo}>Run Algorithm</button>
+        <div className="col-4 w-1/2">
+          <button  className=" bg-[#3d3d29] p-6 rounded-xl" onClick={run_algo}>Run Algorithm</button>
         </div>
-        <div className="col-4">
-          <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl" onClick={reset}>Reset Values</button>
-        </div>
-      </div>
+        <div className="col-4 w-1/2">
+          <button  className=" bg-[#3d3d29] p-6 rounded-xl" onClick={reset}>Reset Values</button>
+  </div>
+      </div> 
       {/* <!-- Algo Buttons Ends --> */}
       
       {/* <!-- Process Sequence Starts --> */}
