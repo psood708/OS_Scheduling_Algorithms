@@ -45,29 +45,4 @@ input{
 background-color: red;
   }
 
-  .misses{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: rgb(46, 148, 188);
-  }
-
-  .hits{
-    font-family: Verdana, Geneva, Tahoma, sans-serif; 
-    color: rgb(46, 148, 188);
-
-  }
-
  
-.hitRate{
-    font-family: Verdana, Geneva, Tahoma, sans-serif; 
-    color: rgb(46, 148, 188); 
-}
-
-  .totalRef{
-    font-family: Verdana, Geneva, Tahoma, sans-serif; 
-    color: rgb(46, 148, 188);
-  }
-
-  .missrate{
-    font-family: Verdana, Geneva, Tahoma, sans-serif; 
-    color: rgb(46, 148, 188); 
-  }

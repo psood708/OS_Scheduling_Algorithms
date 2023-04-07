@@ -1,5 +1,5 @@
 import {React,useState,Component} from 'react'
-import GanttChart from 'react-gantt-chart';
+// import GanttChart from 'react-gantt-chart';
 
 export const RR= () => {
   //completion time
@@ -138,7 +138,8 @@ const calculateAvgTAT = () => {
   }
 
   let avg_wt=total_wt/5;  //average waiting time
-  return avg_wt;
+//   return avg_wt;
+console.log(avg_wt);
 }
 
 
@@ -296,7 +297,7 @@ const calculateGanttChart = () => {
             </tbody>
           </table>
         </div>
-        <div className="row m-5 text-center flex justify-center mt-10 gap-20 ">
+        <div className="row m-5 text-center   mt-10  ">
         <div className="col-4">
           <button  className="btn btn-secondary bg-[#3d3d29] p-4 rounded-xl ">Avg TAT</button>
         </div>

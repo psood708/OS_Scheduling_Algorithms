@@ -9,6 +9,7 @@ import { BankersAlgo } from './Algorithms/BankersAlgo';
 import { AboutUs } from './Pages/AboutUs';
 import { CSCAN_SCAN } from './Algorithms/CSCAN_SCAN';
 import { MRU_sim } from './Algorithms/MRU_sim';
+// import RR from './Algorithms/RR';
 // import RoundRobins from './Algorithms/RoundRobins';
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         <Route exact path="/bankersAlgorithm" element = {<Bankers/>}/>
         <Route exact path="/MRU" element ={<MRU/>}/>
         <Route exact path="/about" element={<AboutUs/>}/>
-        {/* <Route  path="/roundrobins" element={<RoundRobins/>}/> */}
+        {/* <Route  path="/roundrobins" element={<RR/>}/> */}
         <Route  path="/simulation_bankers" element={<BankersAlgo/>}/>
         <Route  path="/simulation_cscan_scan" element={<CSCAN_SCAN/>}/>
         <Route  path="/simulation_MRU" element={<MRU_sim/>}/>

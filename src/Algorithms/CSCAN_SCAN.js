@@ -68,8 +68,8 @@ export const CSCAN_SCAN = () => {
             // console.log("printing queue");
             // console.log(queue)
             nextPos = queue.reverse().find((element) => element < headPos);
-            // console.log("we are chcking");
-            // console.log(nextPos);
+            // console.log("we are chcking")
+            // console.log(nextPos)
             if (nextPos === undefined) {
               direction = "right";
               nextPos = queue[0];
