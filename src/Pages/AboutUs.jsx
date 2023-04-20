@@ -3,7 +3,7 @@ import { Navbar } from '../Components/Navbar'
 import par from "../assets/images/parth.jpg"
 import pri from "../assets/images/priyank.jpeg"
 import mnv from "../assets/images/manav.jpg"
-import akn from "../assets/images/puja.jpeg"
+import akn from "../assets/123.jpeg"
 import pja from "../assets/images/puja.jpeg"
 import { BsLinkedin } from 'react-icons/bs';
 export const AboutUs = () => {

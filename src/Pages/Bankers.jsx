@@ -36,20 +36,6 @@ export const Bankers = () => {
             </div>
           </div>
 
-          <div  className='heading p-10 text-center hover:text-green-600 duration-500 text-[45px]'>How it works</div>
-          <div className='p-8'>
-            <ul className='list-decimal p-8 text-[20px] gap-10 tracking-normal'>
-              <li> The algorithm starts by taking an input of the total number of available resources and the current allocation of resources to each process.</li>
-              <li>The algorithm then calculates the maximum number of resources that each process can request. This information is usually provided by the process when it is created.
-</li>
-              <li>The algorithm checks whether a process can request the resources it needs without leading to a deadlock. This is done by simulating the allocation of resources to the process and checking whether the resulting system will still be in a safe state, i.e., there will be no deadlock.</li>
-              <li>If the system can satisfy the request, the resources are allocated to the process, and the system continues to run. If the request cannot be satisfied without leading to a deadlock, the process is forced to wait until the resources become available.
-</li>
-              <li>Whenever a process releases a resource, the algorithm checks whether the system is still in a safe state. If it is, the resource is deallocated, and the system continues to run. If the system is not in a safe state, the process is forced to wait until additional resources become available.
-</li>
-              <li>The algorithm continues to allocate and deallocate resources based on the requests of the processes until all processes have completed their tasks and released their resources.</li>
-            </ul>
-          </div>
           {/* direct to simulator */}
           <button className='p-10 text-black border-2 border-black hover:border-white bg-green-500 hover:bg-green-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '><Link to="/simulation_bankers">Go to Simulation</Link></button>
 

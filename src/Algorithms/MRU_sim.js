@@ -7,10 +7,18 @@ import "../Algorithms/new.css";
 //Defining the functional Component
 export function MRU_sim()
 {
+
+
+//Time Complexity of MRU
+  // Best case: O(1)
+  // Average case: O(n)
+  // worst case: O(n)
+
     //intializing state variables using useState hooks
     const [pageRefrences,SetpageRefrences] = useState([]);
     const [Frames,SetFrames] = useState(0);
     const [componetMemoryState,SetComponentMemoryState] = useState([]);
+    const[hitOrMiss,setHM] = useState([]);
   const [pageFaults, setPageFaults] = useState(0);
   const [color, setColor] = useState(null);
   const [tableData, setTableData] = useState([]);
@@ -35,69 +43,89 @@ export function MRU_sim()
 
     }
     //handling the simulate button
-    const HandleSimulate = () =>{
-        let newTableData = [];
-        let pageFaults = 0;
-        let componetMemoryState = Array(Frames).fill(null);
-       
-        //looping page refrence array
-        for (let i = 0; i < pageRefrences.length; i++) {
-                  const page = pageRefrences[i];
+    const HandleSimulate = () => {
+      let newTableData = [];
+      let pageFaults = 0;
+      let componentMemoryState = Array(Frames).fill(null);
+    
+      // looping page reference array
+      for (let i = 0; i < pageRefrences.length; i++) {
+        const page = pageRefrences[i];
+    
+        if (!componentMemoryState.includes(page)) { // page not in frame, page fault occurs
+          hitOrMiss.push("F")
+          pageFaults++;
 
-      if (!componetMemoryState.includes(page)) { //page not in frame,page fault occurs
-        
-        pageFaults++;
-        
-        
-        // if there is an empty frame,page added to frame,
-        if (componetMemoryState.includes(null)) {
-          const index = componetMemoryState.indexOf(null);
-          componetMemoryState[index] = page;     
-    }
-    //if all frames occupied,page with maximum distance to next occurence is replaced
-    else {
-        let distances = componetMemoryState.map((Frame) => {
-          const remainingPages = pageRefrences.slice(i + 1);//a subarray of remaining pages
-          const nextIndex = remainingPages.indexOf(Frame);
-          return nextIndex === -1 ? Infinity : nextIndex;
-         
-        });
-        const index = distances.indexOf(Math.max(...distances));
-        componetMemoryState[index] = page;
-      }   
-      
-      
-}
-//Adding the page,page fault count and component memory state  to table data array
-newTableData.push({
-    page: page,
-    pageFault: pageFaults,
-    memory: [...componetMemoryState],
-  });
-
-
+    
+          // if there is an empty frame, page added to frame
+          if (componentMemoryState.includes(null)) {
+            
+            const index = componentMemoryState.indexOf(null);
+            componentMemoryState[index] = page;
+          } else {
+            // if all frames occupied, the page with the most recent reference is replaced
+            hitOrMiss.push("F")
+            const index = componentMemoryState.lastIndexOf(page);
+            if (index !== -1) {
+              // if the page is already in memory, update its reference bit
+              componentMemoryState.splice(index, 1);
+            
+            } else {
+              // if the page is not in memory, find the page with the most recent reference bit and replace it
+              // hitOrMiss.push("F")
+              let maxIndex = -1;
+              let maxPage = -1;
+              for (let j = 0; j < componentMemoryState.length; j++) {
+                const currPage = componentMemoryState[j];
+                const lastIndex = pageRefrences.lastIndexOf(currPage, i - 1); // search backwards for last occurrence
+                if (lastIndex === -1) {
+                  maxIndex = j;
+                  break;
+                }
+                if (lastIndex > maxPage) {
+                  maxPage = lastIndex;
+                  maxIndex = j;
+                }
+              }
+              componentMemoryState.splice(maxIndex, 1);
+            }
+            componentMemoryState.push(page);
+          }
+          hitOrMiss.push("H")
         }
-//updating state variables aftter simulation
-     setPageFaults(pageFaults);
-    SetComponentMemoryState(componetMemoryState);
-    setTableData(newTableData);
-    setTableHeading(true)
-    setPageFaultParagraph(true)
-    }
+       
+        // Adding the page, page fault count, and component memory state to table data array
+        newTableData.push({
+          page: page,
+          pageFault: pageFaults,
+          memory: [...componentMemoryState],
+        });
+      }
+    
+      // updating state variables after simulation
+      setPageFaults(pageFaults);
+      SetComponentMemoryState(componentMemoryState);
+      setTableData(newTableData);
+      setTableHeading(true);
+      setPageFaultParagraph(true);
+      // setHM(hitOrMiss);
+    };
+    
 
    
 
 return( //displaying the page
- <div className="font-Gloock bg-[#131316] text-white">
+ <div className="font-Gloock bg-[#131316] pb-32 text-white h-full">
  <Navbar/>
  
 <div className="Heading text-[40px] flex justify-center" ><h1>MRU Algorithm</h1></div>
-<div className="flex gap-[10%]">
-<div className="Frames text-[20px]">
-    <label>
-        Number of Frames 
+<div className="flex gap-[10%] justify-center">
+<div className="Frames text-[20px] ">
+    <label >
+        Number of Frames : 
         <input
           type="Number"
+          className="ml-2"
            value={Frames} defaultValue={1}
           onChange={HandleFrames}
         ></input>
@@ -110,6 +138,7 @@ return( //displaying the page
         Reference String : 
         <input
           type="Text"
+          className="ml-2"
           min="1" defaultValue={1}
           onChange={HandlePageRefrences}
         ></input>
@@ -128,11 +157,11 @@ return( //displaying the page
       
       <thead>
   <tr className="text-black">
-    <th>Hit or Fault</th>
+    {/* <th>Hit or Fault</th> */}
     {/* This code displays the frame numbers */}
-    {pageRefrences.map((num, index) => ( //to display page refrences in table
+    {/* {hitOrMiss.map((num, index) => ( //to display page refrences in table
       <th key={index}> {num}</th>//key to identify each element in the list
-    ))}
+    ))} */}
     {/* <th>Page Fault</th> */}
   </tr>
 </thead>
@@ -142,9 +171,9 @@ return( //displaying the page
         {/* This code displays the page numbers and their corresponding frames */}
         {tableData[0].memory.map((frame, index) => (
           <tr key={index}>
-            <td>Frame {index}</td>
+            <td className="bg-gray-400 rounded-md">Frame {index}</td>
             {tableData.map((row, rowIndex) => (
-              <td key={rowIndex} >{row.memory[index]}</td>
+              <td key={rowIndex}  className="bg-[#131315]" >{row.memory[index]}</td>
 
             ))}
             {/* <td>{tableData[index].pageFaults}</td> */}
@@ -156,29 +185,31 @@ return( //displaying the page
 
 <br></br>
 {/* diplaying final results */}
-<div className="totalRef">
+<div className=" flex justify-center grid-flow-col gap-6 m-10 text-white">
+<div className="totalRef  p-4 bg-yellow-600 w-1/5 rounded-xl m-0">
   <h3>The total number of refrences are: {pageRefrences.length} </h3>
 </div>
   <br></br>
 
-  <div className="misses">
+  <div className="misses p-4 bg-yellow-600 w-1/5 rounded-xl m-0">
     <h3>The number of misses are: {pageFaults} </h3>
   </div>
     <br></br>
-  <div className="hits">
+  <div className="hits p-4 bg-yellow-600 w-1/5 rounded-xl m-0">
     <h3>The number of hits are: {pageRefrences.length-pageFaults}</h3>
   </div>
   <br></br>
 
 
-  <div className="hitRate">
+  <div className="hitRate p-4 bg-yellow-600 w-1/5 rounded-xl m-0">
     <h3>The Hit Rate is : {(pageRefrences.length-pageFaults)*100/pageRefrences.length} %</h3>
   </div>
   <br></br>
-  <div className="missrate">
+  <div className="missrate p-4 bg-yellow-600 w-1/4 rounded-xl m-0">
     <h3>The Miss Rate is : {(pageFaults)*100/pageRefrences.length} % </h3>
   </div>
 
+</div>
 </div>
 </div>
 

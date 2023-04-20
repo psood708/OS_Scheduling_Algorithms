@@ -3,6 +3,12 @@ import {React,useState} from 'react'
 import { Navbar } from '../Components/Navbar'
 export const BankersAlgo = () => {
 
+  //Time Complexity of Banker's
+// Best case: O(n * m)
+// Average case: O(n * m^2)
+// worst case: O(n * m^2)
+
+
 // start of the logic
 const [isReset,notReset] = useState('');
 function reset(){

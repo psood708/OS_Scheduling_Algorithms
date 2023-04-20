@@ -3,6 +3,20 @@ import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { Navbar } from '../Components/Navbar';
 export const CSCAN_SCAN = () => {
+
+//Time Complexity of CSCAN/SCAN
+// Scan Disk Scheduling:
+
+// Best case: O(n)
+// Average case: O(n log n)
+// worst case: O(n^2)
+
+// C-Scan Disk Scheduling:
+
+// Best case: O(n)
+// Average case: O(n log n)
+// worst case: O(n^2)
+
     const [lb, setlb] = useState('');
     const [ub, setub] = useState('');
     const [type, setType] = useState('');
@@ -68,8 +82,8 @@ export const CSCAN_SCAN = () => {
             // console.log("printing queue");
             // console.log(queue)
             nextPos = queue.reverse().find((element) => element < headPos);
-            // console.log("we are chcking");
-            // console.log(nextPos);
+            // console.log("we are chcking")
+            // console.log(nextPos)
             if (nextPos === undefined) {
               direction = "right";
               nextPos = queue[0];
