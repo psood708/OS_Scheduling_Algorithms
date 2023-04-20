@@ -16,6 +16,7 @@ function App() {
   return (
     <BrowserRouter>
     <div className="App">
+      <title>OS Project</title>
       <Routes>
         <Route exact path="/" element={<HomePage/>} />
         <Route exact path="/roundrobin" element={<RoundRobin/>}/>

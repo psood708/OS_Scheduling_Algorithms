@@ -155,7 +155,7 @@ function reset(){
     <div className="container pt-5 justify-center">
       <h2 className="text-center subheading text-[40px] p-7">BANKER'S ALGORITHM</h2>
     </div>
-    <div className="container bg-yellow-500 ">
+    <div className="container bg-green-500 ">
       <div className="row p-2 pt-5 text-[20px] flex gap-24 justify-center ">
         {/* <!-- Total Instance Form Starts --> */}
         <div className="col-4 text-center">
@@ -368,16 +368,16 @@ function reset(){
       {/* <!-- Algo Buttons Starts --> */}
       <div className="  text-center flex justify-center gap-0 mt-10 ">
         <div className="col-4 w-1/2"> 
-          <button  className=" bg-[#3d3d29] p-6 rounded-xl " onClick={exampleDeadlock}>Example Deadlock</button>
+          <button  className=" bg-[#283e26] p-6 rounded-xl " onClick={exampleDeadlock}>Example Deadlock</button>
         </div>
         <div className="col-4 w-1/2">
-          <button  className=" bg-[#3d3d29] p-6 rounded-xl " onClick={example}>Example Safe</button>
+          <button  className=" bg-[#283e26] p-6 rounded-xl " onClick={example}>Example Safe</button>
         </div>
         <div className="col-4 w-1/2">
-          <button  className=" bg-[#3d3d29] p-6 rounded-xl" onClick={run_algo}>Run Algorithm</button>
+          <button  className=" bg-[#283e26] p-6 rounded-xl" onClick={run_algo}>Run Algorithm</button>
         </div>
         <div className="col-4 w-1/2">
-          <button  className=" bg-[#3d3d29] p-6 rounded-xl" onClick={reset}>Reset Values</button>
+          <button  className=" bg-[#283e26] p-6 rounded-xl" onClick={reset}>Reset Values</button>
   </div>
       </div> 
       {/* <!-- Algo Buttons Ends --> */}
