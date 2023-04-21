@@ -1,45 +1,42 @@
+# OS Algorithm Simulator
 
-# Banker's Algorithm
+This project is a full-stack application built to simulate various OS algorithms, such as RoundRobin, Banker's Algorithm, SCAN-CSCAN, and MRU page replacement. The front-end of the application was built using React.js, while the back-end was built using Node.js and Express.js. The application also includes a chatbot that uses the OpenAI API to generate responses based on user input.
 
-Banker's algorithm 
+## Installation
 
-The Banker's Algorithm is a resource allocation and deadlock avoidance algorithm used in operating systems to ensure the safe and efficient allocation of resources to processes.
+To run this project locally, you must have Node.js and npm installed on your system. Once you have cloned this repository, navigate to the project directory and run the following commands:
 
-The algorithm was developed by Dijkstra in 1965 and is based on the idea of preventing deadlock by checking whether a process can request the resources it needs without leading to a deadlock. The Banker's algorithm is used by the operating system to ensure that the system can meet the resource requests of all processes without getting into a deadlock situation.
+npm install
+npm start
 
-The algorithm works by maintaining a record of the total number of available resources and the resources currently allocated to each process. It also maintains a record of the maximum number of resources each process can request. Using this information, the algorithm determines whether a process can request additional resources without leading to a deadlock. If the system can satisfy the request, the resources are allocated to the process, and the system continues to run. If the request cannot be satisfied without leading to a deadlock, the process is forced to wait until the resources become available.
+ 
+This will start the development server on [http://localhost:3000](http://localhost:3000) for the front-end and [http://localhost:5000](http://localhost:5000) for the back-end.
 
-The Banker's algorithm is widely used in modern operating systems and is considered a robust and efficient method of resource allocation and deadlock avoidance.
+To use the chatbot feature, you must also set up an OpenAI API key and define the `OPENAI_API_KEY` environment variable in a `.env` file.
 
+## Usage
 
+To simulate an OS algorithm, select the algorithm from the dropdown menu and enter the required parameters in the input fields. Then, click the "Simulate" button to run the simulation and view the results.
 
-process:
+To use the chatbot, enter a question in the input field and click the "Send" button to send the question to the backend API. The chatbot's response will be displayed on the screen.
 
-1) The algorithm starts by taking an input of the total number of available resources and the current allocation of resources to each process.
+## Contributing
 
-2) The algorithm then calculates the maximum number of resources that each process can request. This information is usually provided by the process when it is created.
+To contribute to this project, follow these steps:
 
-3) The algorithm checks whether a process can request the resources it needs without leading to a deadlock. This is done by simulating the allocation of resources to the process and checking whether the resulting system will still be in a safe state, i.e., there will be no deadlock.
+1. Fork this repository.
+2. Create a new branch: `git checkout -b new-feature`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin new-feature`
+5. Submit a pull request.
 
-4) If the system can satisfy the request, the resources are allocated to the process, and the system continues to run. If the request cannot be satisfied without leading to a deadlock, the process is forced to wait until the resources become available.
+Please make sure to write descriptive commit messages and to test your changes before submitting the pull request.
 
-5) Whenever a process releases a resource, the algorithm checks whether the system is still in a safe state. If it is, the resource is deallocated, and the system continues to run. If the system is not in a safe state, the process is forced to wait until additional resources become available.
+## License
 
-6) The algorithm continues to allocate and deallocate resources based on the requests of the processes until all processes have completed their tasks and released their resources.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-The Banker's algorithm is widely used in modern operating systems and is considered a robust and efficient method of resource allocation and deadlock avoidance. The algorithm ensures that the system can meet the resource requests of all processes without getting into a deadlock situation.
-
-
-# Need for Banker's Algorithm
-
-Need...
-The algorithm checks each process' resource needs to make sure that granting those resources won't result in a deadlock. When two or more processes are waiting for each other to release resources that they require to move onto the next phase, a deadlock results. This looping waiting condition may result in a deadlock that prevents any processes from moving forward.
-
-The available vector, allocation matrix, and need matrix are the three data structures that the Banker's algorithm uses to make sure the system is always in a secure state. The allocation matrix shows how many resources of each type are currently allocated to each process, while the available vector shows how many resources of each type are currently available. The resources that each process still requires to finish execution are shown in the need matrix.
-
-The algorithm determines whether a process can finish running with the resources at hand. The procedure is permitted to allocate the resources it requires, if possible. If not, the procedure is suspended until the required resources are made available. This guarantees that the system stays secure and eliminates the possibility of a deadlock.
-The Banker's algorithm is, in general, a crucial tool for preserving system stability and avoiding deadlocks. It enables multiple processes to effectively share a constrained set of resources while avoiding looping waiting situations that can result in system-wide deadlocks.
-
+ 
 # TechStack Used
 - ReactJs
 - NodeJs
@@ -70,7 +67,7 @@ The Banker's algorithm is, in general, a crucial tool for preserving system stab
 
 
 ## Authors
-
+- [Parth Sood](https://github.com/psood708)
 - [Priyank Vaidya](https://www.github.com/octokatherine)
 - [Akanksha Sharma](https://github.com/akankshaaa8)
 - [Manav Surti](https://github.com/infosecmanav)
