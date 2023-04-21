@@ -32,7 +32,7 @@ export const AboutUs = () => {
     {
         id: 4,
         name:"Pooja",
-        lname:"xyz",
+        lname:"Mavadhiya",
         work:"Algorithms and frontend",
         linkedin:"https://www.linkedin.com/in/parth-sood/",
     },

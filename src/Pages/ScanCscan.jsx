@@ -10,11 +10,11 @@ export const ScanCscan = () => {
       <Navbar />
 
 
-      <div>
+      <div className='bg-[#19191c] flex justify-center pb-8'>
          
 
 
-        <div className='font-Gloock bg-[#19191c] h-full text-white pb-10'>
+        <div className='font-Gloock bg-[#19191c] h-full text-white pb-6 border-2 border-white w-4/5 rounded-3xl'>
 
 
           <div className='heading p-10 text-center hover:text-blue-600 duration-500 text-[50px]'>
@@ -25,14 +25,14 @@ export const ScanCscan = () => {
             {/* <img src={img} alt="scan-cscan" className='w-5/12 rounded-xl ml-10'></img> */}
             <div>
               <ul className='list-disc p-8 text-[20px] pb-12'>
-                <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard d only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was  </li>
-                <li className='mt-6'>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin pr red the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bo </li>
-                <li className='mt-6'>It look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various vers</li>
+                <li>SCAN (also known as Elevator Algorithm) works by moving the disk arm from one end of the disk to the other, serving all requests in its path in the order of their arrival. Once it reaches the end, it reverses direction and serves all the remaining requests on its way back. This algorithm is efficient when the requests are spread out evenly across the disk. </li>
+                <li className='mt-6'>CSCAN (Circular SCAN) is similar to SCAN, but instead of reversing direction when it reaches the end of the disk, it immediately returns to the beginning of the disk and starts serving requests from there. This algorithm ensures that all requests are eventually serviced, even if they are at the far end of the disk. It can be more efficient than SCAN when most of the requests are located near the beginning of the disk.</li>
+                <li className='mt-6'>Both algorithms aim to minimize average seek time and reduce disk head movement, but may not be optimal for certain workloads or scenarios. </li>
               </ul>
             </div>
           </div>
           {/* direct to simulator */}
-          <button className='p-10 text-black border-2 border-black pb-10 hover:border-white bg-blue-500 hover:bg-blue-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '><Link to="/simulation_cscan_scan">Go to Simulation</Link> </button>
+          <button className='p-10 text-black border-2 border-black pb-10 hover:border-white bg-blue-500 hover:bg-blue-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-1 items-center '><Link to="/simulation_cscan_scan">Go to Simulation</Link> </button>
 
 
 

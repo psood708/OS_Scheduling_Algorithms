@@ -8,8 +8,8 @@ export const MRU = () => {
     <div>
       <Navbar />
 
-
-      <div className='font-Gloock bg-[#19191c] text-white pb-10'>
+      <div className='bg-[#19191c] flex justify-center pb-'>
+      <div className='font-Gloock bg-[#19191c] text-white pb-4 border-2 border-white w-4/5 rounded-3xl'>
 
 
         <div className='heading p-10 text-center hover:text-yellow-600 duration-500 text-[50px]'>
@@ -37,7 +37,8 @@ If the page is not found in the queue, replace the page at the front of the queu
           </div>
         </div>
         {/* direct to simulator */}
-        <button className='p-10 text-black border-2 border-black hover:border-white bg-yellow-500 hover:bg-yellow-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-4 items-center '> <Link to='/simulation_MRU'>Go to Simulation</Link></button>
+        <Link to='/simulation_MRU'><button className='p-10 text-black border-2 border-black hover:border-white bg-yellow-500 hover:bg-yellow-700 duration-700 hover:text-white rounded-3xl text-[20px] left-3/4 relative mt-1 items-center '> Go to Simulation</button></Link>
+      </div>
       </div>
     </div>
   )
