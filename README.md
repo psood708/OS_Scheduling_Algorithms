@@ -20,23 +20,6 @@ To simulate an OS algorithm, select the algorithm from the dropdown menu and ent
 
 To use the chatbot, enter a question in the input field and click the "Send" button to send the question to the backend API. The chatbot's response will be displayed on the screen.
 
-## Contributing
-
-To contribute to this project, follow these steps:
-
-1. Fork this repository.
-2. Create a new branch: `git checkout -b new-feature`.
-3. Make your changes and commit them: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin new-feature`
-5. Submit a pull request.
-
-Please make sure to write descriptive commit messages and to test your changes before submitting the pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
- 
 # TechStack Used
 - ReactJs
 - NodeJs
@@ -64,7 +47,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | :-------- | :------- | :-------------------------------- |
 | `body`      | `json` | **Required**. json data of Input from Front-end |
 
+## Contributing
 
+To contribute to this project, follow these steps:
+
+1. Fork this repository.
+2. Create a new branch: `git checkout -b new-feature`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin new-feature`
+5. Submit a pull request.
+
+Please make sure to write descriptive commit messages and to test your changes before submitting the pull request.
 
 ## Authors
 - [Parth Sood](https://github.com/psood708)
